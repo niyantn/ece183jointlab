@@ -198,6 +198,15 @@ def plotdata(data_arr, name):
         rob.state_dynamic_equation([leftvels[i]/10, rightvels[i]/10])
         xposes.append(rob.state[0])
         yposes.append(rob.state[1])
+
+    x_pos = [float(x[10]) for x in data_arr]
+    y_pos = [float(x[12]) for x in data_arr]
+
+    percent_diff_x = [((xposes[i]/10)-x_pos[i])/xposes[i] for i in range(len(xposes))]
+    percent_diff_y = [((yposes[i]/10)-y_pos[i])/yposes[i] for i in range(len(yposes))]
+    with open("percent_diffs.txt", "a") as filestream:
+        filestream.write(str((sum(percent_diff_x)/len(percent_diff_x), sum(percent_diff_y)/len(percent_diff_y))))
+        filestream.write("\n")
     fig = plt.figure()
     plt.plot(xposes, yposes)
     plt.xlabel('x (m) from origin (50,50)')
